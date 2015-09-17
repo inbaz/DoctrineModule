@@ -252,7 +252,9 @@ class DoctrineObject extends AbstractHydrator
         foreach ($data as $field => $value) {
             $field  = $this->computeHydrateFieldName($field);
             $value  = $this->handleTypeConversions($value, $metadata->getTypeOfField($field));
-            $setter = 'set' . ucfirst($field);
+			$setter = sprintf('set%s', ucfirst(
+				str_replace(' ', '', ucwords(str_replace('_', ' ', $field)))
+			));
 
             if ($metadata->hasAssociation($field)) {
                 $target = $metadata->getAssociationTargetClass($field);
